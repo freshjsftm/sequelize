@@ -4,7 +4,9 @@ const {isBefore} = require('date-fns');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model { ///User  Users => users
     static associate(models) {
-      User.hasMany(models.Task);
+      User.hasMany(models.Task, {
+        foreignKey:'userId'
+      });
     }
   }
   User.init({
