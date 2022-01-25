@@ -42,8 +42,8 @@ module.exports.updateUser = async (req, res, next) =>{
 
 module.exports.updateUserInstance = async (req, res, next) =>{
   try {
-    const {body, params:{id}} = req;
-    const userInstance = await User.findByPk(id);
+    const {body, userInstance} = req;
+    //const userInstance = await User.findByPk(id);
     const updatedUser = await userInstance.update(body,{
       returning:true
     });

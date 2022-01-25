@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Task.belongsTo(models.User, {
         foreignKey:'userId'
-      });//userId->user_id
+      });
     }
   }
   Task.init({
