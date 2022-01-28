@@ -22,3 +22,46 @@ module.exports.createUserGroup = async(req, res, next)=>{
     next(error)
   }
 }
+
+module.exports.getGroupsByUser = async(req, res, next)=>{
+  try {
+    const {params:{userId}} = req;
+    const userWithGroups = await User.findByPk(userId, {
+      attributes:{exclude:'password'},
+      include: [
+        {
+          model:Group,
+          through:{
+            attributes:[]
+          }
+        }
+      ],      
+    })
+    if(!userWithGroups){
+      return next(createError(404, 'User not found'));
+    }
+    res.status(200).send({data: userWithGroups});
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports.createImageForGroup = async(req, res, next)=>{
+  try {
+    const {
+      file:{filename},
+      params:{groupId}
+    } = req;
+
+    const [count, [updatedGroup]] = await Group.update(
+      {imagePath:filename},
+      {
+        where:{id:groupId},
+        returning:true
+      }
+    )
+    res.send({data:updatedGroup})
+  } catch (error) {
+    next(error)
+  }
+}
