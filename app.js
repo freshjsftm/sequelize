@@ -9,6 +9,7 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use('/api', router);
 
-app.use(errorHandler);
+app.use(errorHandler.sequelizeHandlerError);
+app.use(errorHandler.basicHandlerError);
 
 module.exports = app;
